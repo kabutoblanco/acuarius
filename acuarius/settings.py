@@ -11,17 +11,16 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 import os, environ
-from dotenv import load_dotenv
 from pathlib import Path
+from decouple import config
 
-load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 ROOT_DIR = environ.Path(__file__) - 2
 
-PUBLIC_KEY = os.getenv('PUK')
-PRIVATE_KEY = os.getenv('PRK')
+PUBLIC_KEY = config('PUK')
+PRIVATE_KEY = config('PRK')
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 CSRF_COOKIE_SECURE = True
@@ -33,7 +32,7 @@ SESSION_COOKIE_DOMAIN = None
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('SEK')
+SECRET_KEY = config('SEK')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
