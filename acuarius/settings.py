@@ -18,8 +18,7 @@ from decouple import config
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 ROOT_DIR = environ.Path(__file__) - 2
-logging.warning('AQUI IMPRIMIENDO')
-logging.warning(config('PUK'))
+
 PUBLIC_KEY = config('PUK')
 PRIVATE_KEY = config('PRK')
 
@@ -36,7 +35,7 @@ SESSION_COOKIE_DOMAIN = None
 SECRET_KEY = config('SEK')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
