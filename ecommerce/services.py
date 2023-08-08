@@ -8,10 +8,13 @@ import json
 def get_token_epayco():
     session = requests.Session()
     session.headers.update({'Authorization': 'Basic ' + base64.b64encode((settings.PUBLIC_KEY + ":" + settings.PRIVATE_KEY).encode('utf-8')).decode('utf-8')})
-    r = session.post('https://apify.epayco.co/login', data='')
-    if r.status_code == 200:
-        return r.json()['token']
-    return None
+    try:
+        r = session.post('https://apify.epayco.co/login', data='')
+        if r.status_code == 200:
+            return r.json()['token']
+    except requests.exceptions.RequestException as e:
+        print("Error en la solicitud:", e)
+        return None
 
 
 def payment_pse(token, payload):
