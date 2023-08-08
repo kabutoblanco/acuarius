@@ -9,7 +9,9 @@ import logging
 def get_token_epayco():
     public_key = settings.PUBLIC_KEY
     private_key = settings.PRIVATE_KEY
-    logging.warning("cadenas: ", public_key, private_key)
+    logging.warning("cadenas: ")
+    logging.warning(public_key)
+    logging.warning(private_key)
     credentials = f"{public_key}:{private_key}"
     logging.warning(credentials)
     encoded_credentials = base64.b64encode(credentials.encode('utf-8')).decode('utf-8')
