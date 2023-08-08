@@ -7,6 +7,7 @@ import logging
 
 
 def get_token_epayco():
+    logging.error("EN EL SERVICIO", settings.PUBLIC_KEY)
     session = requests.Session()
     session.headers.update({'Authorization': 'Basic ' + base64.b64encode((settings.PUBLIC_KEY + ":" + settings.PRIVATE_KEY).encode('utf-8')).decode('utf-8')})
     try:
