@@ -7,8 +7,15 @@ import logging
 
 
 def get_token_epayco():
+    public_key = settings.PUBLIC_KEY
+    private_key = settings.PRIVATE_KEY
+    logging.warning("cadenas: ", public_key, private_key)
+    credentials = f"{public_key}:{private_key}"
+    logging.warning(credentials)
+    encoded_credentials = base64.b64encode(credentials.encode('utf-8')).decode('utf-8')
+
     session = requests.Session()
-    session.headers.update({'Authorization': 'Basic ' + base64.b64encode((settings.PUBLIC_KEY + ":" + settings.PRIVATE_KEY).encode('utf-8')).decode('utf-8'), 'Content-Type': 'application/json'})
+    session.headers.update({'Authorization': 'Basic ' + encoded_credentials, 'Content-Type': 'application/json'})
     session.headers.update({'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36'})
     try:
         r = session.post('https://apify.epayco.co/login', data='')
