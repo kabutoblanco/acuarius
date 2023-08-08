@@ -3,6 +3,7 @@ from django.conf import settings
 import requests
 import base64
 import json
+import logging
 
 
 def get_token_epayco():
@@ -13,7 +14,7 @@ def get_token_epayco():
         if r.status_code == 200:
             return r.json()['token']
     except requests.exceptions.RequestException as e:
-        print("Error en la solicitud:", e)
+        logging.error("Error en la solicitud:", e)
         return None
 
 
