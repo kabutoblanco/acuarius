@@ -35,7 +35,7 @@ SESSION_COOKIE_DOMAIN = None
 SECRET_KEY = config('SEK')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
