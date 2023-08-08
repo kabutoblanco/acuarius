@@ -1,0 +1,106 @@
+.product-image:hover {
+    transform: scale(1.1);
+}
+
+.product-image::before {
+    transform: translate(-5%, -5%);
+}
+
+.color-circle-activate {
+    border: 2px rgb(112, 99, 99) dashed;
+}
+
+.color-circle:hover {
+    cursor: pointer;
+}
+
+.product-detail {
+    position: absolute;
+}
+
+.detail-added {
+    opacity: 1 !important;
+}
+
+.check-image-container {
+    position: absolute;
+    opacity: 0;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.check-image-container:hover {
+    background-color: rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+    opacity: 1;
+}
+
+.check-image {
+    height: 50px;
+    width: 50px;
+}
+
+.discount-badge-xs {
+    font-size: x-small;
+    font-weight: bolder;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background-color: red;
+    color: white;
+    padding: 2px 10px;
+    z-index: 1;
+}
+
+.discount-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: red;
+    color: white;
+    padding: 5px 10px;
+    z-index: 1;
+}
+
+.amount-cart {
+    border-radius: 50%;
+    text-align: center;
+    padding: 1px 3px;
+    width: 20px;
+    height: 20px;
+    font-size: 10px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    position: absolute;
+    right: 10px;
+    top: -5px;
+    font-weight: bolder;
+    background-color: rgb(228, 53, 53);
+    color: black;
+}
+
+.navbar-toogle-custom {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(0, 0, 0, 0.5)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
+.navbar-toggler-custom:focus {
+    outline: 0;
+}
+
+#navbarText {
+    height: 100%;
+    align-items: center;
+}
+
+.active {
+    text-decoration: underline;
+}
+
+@media screen and (max-width: 990px) {
+    #navbarText {
+        height: auto;
+    }
+}

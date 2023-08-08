@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    {% include 'navbar.html' %}
+    <div class="container py-5">
+        <div class="d-flex align-items-end" style="flex-direction: column;">
+            <h5 style="font-size: small;">Subtotal: <span id="subtotal">${{subtotal|floatformat:"0g"}}</span></h5>
+            <h5 style="font-size: small;">Descuentos: <span id="discount">${{discount|floatformat:"0g"}}</span></h5>
+            <h5 style="font-size: small;">Envio: <span id="price_sending">${{price_sending|floatformat:"0g"}}</span></h5>
+            <h5 style="font-size: medium;">Total: <span id="total">${{total|floatformat:"0g"}}</span></h5>
+        </div>
+        <form id="payment-form" method="post">
+            {% csrf_token %}
+            <input type="hidden" id="value" name="value" value="{{total}}">
+            <input type="hidden" name="ref_order" value="{{ request.GET.ref_order }}">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="bank">Banco</label>
+                        <select class="form-control" id="bank" name="bank">
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="typePerson">Tipo de persona</label>
+                        <select class="form-control" id="typePerson" name="typePerson">
+                            <option value="1">Natural</option>
+                            <option value="2">Juridica</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="docType">Tipo de documento</label>
+                        <select class="form-control" id="docType" name="docType">
+                            <option value="CC">CC</option>
+                            <option value="NIT">NIT</option>
+                            <option value="CE">Cédula de Extranjería</option>
+                            <option value="PPN">Pasaporte</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="docNumber">Número de documento</label>
+                        <input type="text" class="form-control" id="docNumber" name="docNumber" required>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="name">Nombre</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="lastName">Apellido</label>
+                        <input type="text" class="form-control" id="lastName" name="lastName" required>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="email">Correo electrónico</label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="example@gmail.com" required>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="address">Dirección</label>
+                        <input type="text" class="form-control" id="address" name="address" required>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="cellPhone">Teléfono celular</label>
+                        <input type="tel" class="form-control" id="cellPhone" name="cellPhone" pattern="[0-9]{10}" required>
+                    </div>
+                </div>
+            </div>
+            <div class="row ">
+                <div class="col-md-12 d-flex justify-content-end">
+                    <button class="btn btn-success" type="submit" form="payment-form">REALIZAR PAGO</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script src={% static 'js/payment.js' %}></script>
+{% endblock %}

@@ -1,0 +1,14 @@
+<article style="width: 230px; height: 205px; position: relative; border-radius: 10px; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5); overflow: hidden;">
+    <img class="w-100 h-100 product-image" style="object-fit: cover;" src=/media/{{product.image_1}} alt="">
+    <div class="w-100" style="position: absolute; bottom: 0; background-color: rgb(37, 37, 29); opacity: 0.75; color: white; font-weight: bolder; height: 60px;">
+        <span class="p-3" style="font-size: 15px;">{{product.name}}</span>
+        <div class="d-flex px-3 align-items-center justify-content-between">
+            <div class="d-flex" style="gap: 5px;">
+                {% for color in product.colors.all %}
+                    <div class="color-circle" style="width: 20px; height: 20px; border-radius: 50%; background-color: {{color.ref}};"></div>
+                {% endfor %}
+            </div>
+            <span style="font-size: 20px;">${{product.price|floatformat:"0g"}}</span>
+        </div>
+    </div>
+</article>

@@ -1,0 +1,29 @@
+{% load static %} 
+<section class="d-flex justify-content-center align-items-center" style="height: 70px; background-color: #f6dbe4;">
+    <img src="{% static 'img/logo.png' %}" alt="" srcset="" height="55">
+</section>
+<nav class="navbar navbar-expand-lg w-100 p-0" style="font-weight: bolder; height: 70px; background-color: #6cca73;">
+    <button class="navbar-toggler navbar-toggler-custom h-100 px-3" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon navbar-toogle-custom"></span>
+    </button>
+    <div id="navbarText" class="collapse navbar-collapse w-100" style="background-color: #a6e9ac; z-index: 2;">
+        <ul class="navbar-nav mr-auto d-flex mb-0 justify-content-center w-100" style="list-style-type: none; font-size: 20px; text-align: center;">
+            <li class="nav-item px-2 py-2 {% if request.path == '/' %} active {% endif %}"><a style="color: black !important;" href="/">INICIO</a></li>
+            {% for category in categories %}
+                <li class="nav-item px-2 py-2 {% if category.path in request.path %} active {% endif %}"><a style="color: black !important;" href="{% url 'product-category' category=category.path %}">{{category.name|upper}}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="d-flex px-4 align-self-center" style="position: absolute; right: 0; z-index: 2;">
+        <a href="{% url 'carrito' %}" class="mb-0 d-flex align-items-center">
+            <div class="align-self-center pr-3 cart" style="position: relative;">
+                <span class="amount-cart">{{cart_count}}</span>
+                <img src="{% static 'img/carrito-de-compras.png' %}" height="35" alt="">
+            </div>
+        </a>
+        <a href="https://wa.me/573154506272?text=Hola,%20estoy%20interesado%20en%20adquirir%20un%20ramo." target="_blank" class="d-flex" style="flex-direction: column; font-size: 15px">
+            <span>Pide domicilios</span>
+            <span class="d-flex align-items-center" style="gap: 3px;"><img src="{% static 'img/whatsapp.png' %}" width="12" height="12" alt="">3154506272</span>
+        </a>
+    </div>
+</nav>

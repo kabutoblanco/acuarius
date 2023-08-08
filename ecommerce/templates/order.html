@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    {% include 'navbar.html' %}
+    <div class="container py-5">
+        <div class="d-flex align-items-end" style="flex-direction: column;">
+            <h5 style="font-size: small;">Subtotal: <span id="subtotal">${{subtotal|floatformat:"0g"}}</span></h5>
+            <h5 style="font-size: small;">Descuentos: <span id="discount">${{discount|floatformat:"0g"}}</span></h5>
+            <h5 style="font-size: small;">Envio: <span id="price_sending">${{price_sending|floatformat:"0g"}}</span></h5>
+            <h5 style="font-size: medium;">Total: <span id="total">${{total|floatformat:"0g"}}</span></h5>
+        </div>
+        <form id="payment-form" method="post">
+            {% csrf_token %}
+            <input type="hidden" id="value" name="value" value="{{total}}">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="is_pickup">¿Recogida?</label>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="is_pickup" name="is_pickup" value="false" onchange="tooglePickup(this, '{% url 'update-order' %}', event)" autocomplete="off">
+                            <label class="form-check-label" for="is_pickup">Sí, es recogida</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="address">Dirección:</label>
+                        <input type="text" class="form-control" id="address" name="address" placeholder="Ingresa la dirección" required>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="type_payment">Tipo de pago:</label>
+                        <select class="form-control" id="type_payment" name="type_payment">
+                            <option value="1">PSE</option>
+                            <option value="2">Transferencia Bancaria</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="date_schedule">Fecha programada:</label>
+                        <input type="datetime-local" class="form-control" id="date_schedule" name="date_schedule" required>
+                    </div>
+                </div>
+            </div>
+            <div class="row ">
+                <div class="col-md-12 d-flex justify-content-end">
+                    <button class="btn btn-success" type="submit" form="payment-form">REALIZAR PAGO</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script src={% static 'js/order.js' %}></script>
+{% endblock %}
