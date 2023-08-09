@@ -1,21 +1,24 @@
-# Usa la imagen base de Python
-FROM python:3.8
+# Utiliza una imagen base ligera de Ubuntu
+FROM debian:bullseye-slim
 
-# Establece la variable de entorno PYTHONUNBUFFERED a 1
-ENV PYTHONUNBUFFERED 1
+# Actualiza el sistema y instala las dependencias necesarias
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y python3 python3-pip nginx
 
-# Establece el directorio de trabajo en /app
+# Establece el directorio de trabajo
 WORKDIR /app
 
-# Copia el archivo de requisitos y lo instala
-COPY requirements.txt /app/
-RUN pip install -r requirements.txt
+# Copia el código fuente de la aplicación a la imagen
+COPY . /app
 
-# Copia el resto de los archivos al directorio de trabajo
-COPY . /app/
+# Instala las dependencias de la aplicación Django
+RUN pip3 install -r requirements.txt
 
-# Expone el puerto 8000
-EXPOSE 8000
+# Configura Nginx para servir archivos estáticos
+COPY nginx.conf /etc/nginx/sites-available/default
 
-# Comando para ejecutar Gunicorn
-CMD ["gunicorn", "acuarius.wsgi:application", "--bind", "0.0.0.0:8000"]
+# Exponer el puerto 80 para Nginx
+EXPOSE 80
+
+# Inicia Nginx y la aplicación Django
+CMD service nginx start && python3 manage.py runserver 0.0.0.0:8000
