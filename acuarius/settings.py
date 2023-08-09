@@ -10,7 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
-import os, environ, logging
+import os, environ
 from pathlib import Path
 from decouple import config
 
@@ -18,15 +18,21 @@ from decouple import config
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 ROOT_DIR = environ.Path(__file__) - 2
-logging.info(BASE_DIR, ROOT_DIR)
+
+DEBUG = config('DEBUG')
 
 PUBLIC_KEY = config('PUK')
 PRIVATE_KEY = config('PRK')
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
 
+if DEBUG:
+    CSRF_TRUSTED_ORIGINS = [
+        "http://0.0.0.0:8000",  # Agrega la URL de origen confiable aquí
+    ]
+    
+CSRF_COOKIE_SECURE = DEBUG
+SESSION_COOKIE_SECURE = DEBUG
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -35,10 +41,8 @@ SESSION_COOKIE_SECURE = True
 SECRET_KEY = config('SEK')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
 
 ALLOWED_HOSTS = ['*']
-
 
 # Application definition
 
