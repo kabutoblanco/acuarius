@@ -1,6 +1,6 @@
 {% load static %} 
 <section class="d-flex justify-content-center align-items-center" style="height: 70px; background-color: #f6dbe4;">
-    <img src="{% static 'img/logo.png' %}" alt="" srcset="" height="55">
+    <img src="{% static 'img/logo.png' %}" alt="logo-acuarius-floristeria" srcset="" height="55">
 </section>
 <nav class="navbar navbar-expand-lg w-100 p-0" style="font-weight: bolder; height: 70px; background-color: #6cca73;">
     <button class="navbar-toggler navbar-toggler-custom h-100 px-3" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
@@ -18,7 +18,7 @@
         <a href="{% url 'carrito' %}" class="mb-0 d-flex align-items-center">
             <div class="align-self-center pr-3 cart" style="position: relative;">
                 <span class="amount-cart">{{cart_count}}</span>
-                <img src="{% static 'img/carrito-de-compras.png' %}" height="35" alt="">
+                <img src="{% static 'img/carrito-de-compras.png' %}" height="35" alt="carrito-compras">
             </div>
         </a>
         <a href="https://wa.me/573154506272?text=Hola,%20estoy%20interesado%20en%20adquirir%20un%20ramo." target="_blank" class="d-flex" style="flex-direction: column; font-size: 15px">
