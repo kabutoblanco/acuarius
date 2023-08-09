@@ -22,4 +22,4 @@ COPY nginx.conf /etc/nginx/sites-available/default
 EXPOSE 80
 
 # Inicia Nginx y la aplicación Django
-CMD service nginx start && gunicorn your_project_name.wsgi:application --bind 0.0.0.0:8000
+CMD service nginx start && gunicorn acuarius.wsgi:application --bind 0.0.0.0:8000
