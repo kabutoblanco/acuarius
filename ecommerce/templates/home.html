@@ -13,7 +13,7 @@
             <div id="carousel-inner" class="carousel-inner">
               {% for banner in banners %}
                 <div class="carousel-item d-flex justify-content-center {% if forloop.counter0 == 0 %} active {% endif %}">
-                  <img class="d-block w-100 img-banner" height="250px" style="max-width: 1440px;" src=/media{{banner.img_large}} src_large=/media/{{banner.img_large}} src_small=/media/{{banner.img_small}} alt="{{forloop.counter0}}_{{banner.name}}">
+                  <img class="d-block w-100 img-banner" height="250px" style="max-width: 1440px;" src=/media/{{banner.img_large}} src_large=/media/{{banner.img_large}} src_small=/media/{{banner.img_small}} alt="{{forloop.counter0}}_{{banner.name}}">
                 </div>
               {% endfor %}
             </div>
