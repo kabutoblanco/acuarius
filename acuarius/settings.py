@@ -34,6 +34,8 @@ if DEBUG:
 CSRF_COOKIE_SECURE = DEBUG
 SESSION_COOKIE_SECURE = DEBUG
 
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
