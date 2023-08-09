@@ -4,6 +4,19 @@ from django.utils.html import format_html
 from .models import *
 
 
+class BannerAdmin(admin.ModelAdmin):
+    list_display = ('name', 'image_preview')
+    search_fields = ('name',)
+    ordering = ('name',)
+
+    def image_preview(self, obj):
+        if obj.img_small:
+            return format_html('<img src="{}" width="40" height="40" />', obj.img_small.url)
+        return None
+
+    image_preview.short_description = 'Imagen pequeña'
+
+
 class CustomerAdmin(admin.ModelAdmin):
     list_display = ('uid_device', 'email')
     search_fields = ('uid_device', 'email')
@@ -71,6 +84,7 @@ class PaymentAdmin(admin.ModelAdmin):
 
 
 # Register your models here.
+admin.site.register(Banner, BannerAdmin)
 admin.site.register(Customer, CustomerAdmin)
 admin.site.register(Color, ColorAdmin)
 admin.site.register(Category, CategoryAdmin)

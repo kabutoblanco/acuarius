@@ -8,7 +8,7 @@ import uuid
 import json
 from datetime import datetime, timedelta
 
-from .models import Customer, Product, CartProduct, Payment, Order, OrderProduct
+from .models import Customer, Product, CartProduct, Payment, Order, OrderProduct, Banner
 
 from .services import get_token_epayco, payment_pse, get_banks as get_banks_api, get_client_ip
 
@@ -22,13 +22,21 @@ class MainListView(ListView):
     template_name = 'home.html'
     queryset = Product.objects.filter(type_product=1)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        queryset_banner = Banner.objects.all()
+
+        context['banners'] = queryset_banner
+
+        return context
+
 
 class CategoryListView(ListView):
     context_object_name = 'product_list'
     template_name = 'category.html'
 
     def get_queryset(self):
-        print(self.request.session)
         category = self.kwargs['category']
         queryset = Product.objects.filter(categories__path=category)
         return queryset

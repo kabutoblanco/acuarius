@@ -11,6 +11,19 @@ STATUS_ORDER = ((1, _("RECEIVED")), (2, _("SENDED")), (3, _("DELIVERED")))
 STATUS_PAYMENT = ((1, _("PENDING")), (2, _("APPROVADED")), (3, _("CANCELED")))
 
 # Create your models here.
+class Banner(models.Model):
+    name = models.CharField(max_length=125, verbose_name="Nombre")
+    img_small = models.ImageField(upload_to='images/banners/', null=True, blank=True, verbose_name='Imagen pequeña')
+    img_large = models.ImageField(upload_to='images/banners/', null=True, blank=True, verbose_name='Imagen grande')
+
+    class Meta:
+        verbose_name = 'Banner'
+        verbose_name_plural= 'Banners'
+
+    def __str__(self) -> str:
+        return '[{}] - {}'.format(self.id, self.name)
+
+
 class Customer(models.Model):
     uid_device = models.CharField(null=True, blank=True, unique=True, max_length=120, verbose_name='UID')
     email = models.EmailField(null=True, blank=True, unique=True, verbose_name='Correo')
