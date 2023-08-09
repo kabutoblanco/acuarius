@@ -18,6 +18,7 @@ from decouple import config
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 ROOT_DIR = environ.Path(__file__) - 2
+logging.info(BASE_DIR, ROOT_DIR)
 
 PUBLIC_KEY = config('PUK')
 PRIVATE_KEY = config('PRK')
@@ -25,7 +26,6 @@ PRIVATE_KEY = config('PRK')
 SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
-SESSION_COOKIE_DOMAIN = None
 
 
 # Quick-start development settings - unsuitable for production
