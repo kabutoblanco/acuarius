@@ -43,4 +43,16 @@
             {% endfor %}
         </div>
     </section>
+    <script>
+      function handleResize() {
+        var width = $(window).width();
+        console.log(width)
+        if (width <= 520)
+          $(".d-block").attr('src', '/static/img/banner11.jpg')
+        else
+          $(".d-block").attr('src', '/static/img/banner1.jpg')
+      }
+
+      $(window).resize(handleResize);
+    </script>
 {% endblock %}
