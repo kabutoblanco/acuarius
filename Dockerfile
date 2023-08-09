@@ -13,6 +13,7 @@ COPY . /app
 
 # Instala las dependencias de la aplicación Django
 RUN pip3 install -r requirements.txt
+RUN python3 manage.py collectstatic --noinput
 
 # Configura Nginx para servir archivos estáticos
 COPY nginx.conf /etc/nginx/sites-available/default
