@@ -20,6 +20,7 @@ COPY nginx.conf /etc/nginx/sites-available/default
 
 # Exponer el puerto 80 para Nginx
 EXPOSE 80
+EXPOSE 443
 
 # Inicia Nginx y la aplicación Django
 CMD service nginx start && gunicorn acuarius.wsgi:application --bind 0.0.0.0:8000
