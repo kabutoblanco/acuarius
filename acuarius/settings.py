@@ -26,7 +26,7 @@ PRIVATE_KEY = config('PRK')
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 
-if DEBUG:
+if not DEBUG:
     CSRF_TRUSTED_ORIGINS = [
         "http://0.0.0.0:8000", "http://acuariusfloristeriacali.com:8000", "https://acuariusfloristeriacali.com"  # Agrega la URL de origen confiable aquí
     ]
