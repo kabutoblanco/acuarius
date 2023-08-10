@@ -11,3 +11,4 @@ services:
       - ./db.sqlite3:/app/db.sqlite3
       - ./staticfiles:/app/staticfiles
       - ./mediafiles:/app/mediafiles
+      - ./certbot/conf:/etc/letsencrypt
