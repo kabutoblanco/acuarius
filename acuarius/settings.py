@@ -28,7 +28,7 @@ SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 
 if DEBUG:
     CSRF_TRUSTED_ORIGINS = [
-        "http://0.0.0.0:80",  # Agrega la URL de origen confiable aquí
+        "http://0.0.0.0:8000", "http://acuariusfloristeriacali.com:8000", "https://acuariusfloristeriacali.com"  # Agrega la URL de origen confiable aquí
     ]
     
 CSRF_COOKIE_SECURE = DEBUG
