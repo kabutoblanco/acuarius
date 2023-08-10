@@ -31,8 +31,8 @@ if not DEBUG:
         "http://0.0.0.0:8000", "http://acuariusfloristeriacali.com:8000", "https://acuariusfloristeriacali.com"  # Agrega la URL de origen confiable aquí
     ]
     
-CSRF_COOKIE_SECURE = DEBUG
-SESSION_COOKIE_SECURE = DEBUG
+CSRF_COOKIE_SECURE = not DEBUG
+SESSION_COOKIE_SECURE = not DEBUG
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
