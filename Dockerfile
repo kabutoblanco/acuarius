@@ -15,6 +15,7 @@ COPY . /app
 RUN pip3 install -r requirements.txt
 RUN python3 manage.py collectstatic --noinput
 RUN pip3 install --upgrade certbot
+RUN mkdir -p /etc/letsencrypt
 RUN mkdir -p /var/www/html/.well-known/acme-challenge/ && \
     ln -s /var/www/html/.well-known/acme-challenge/ /etc/letsencrypt/.well-known/acme-challenge
 
