@@ -3,7 +3,7 @@ FROM debian:bullseye-slim
 
 # Actualiza el sistema y instala las dependencias necesarias
 RUN apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y python3 python3-pip && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y python3 python3-pip nginx && \
     apt-get clean && \
     apt-get autoclean && \
     apt-get autoremove && \
