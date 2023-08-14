@@ -6,10 +6,13 @@ services:
     build: .
     ports:
       - "8000:8000"
+      - "8080:8080"
       - "80:80"
       - "443:443"
     volumes:
       - ./db.sqlite3:/app/db.sqlite3
+      - ./static:/app/static
+      - ./media:/app/media
       - ./staticfiles:/app/staticfiles
       - ./mediafiles:/app/mediafiles
       - ./certbot/conf:/etc/letsencrypt
