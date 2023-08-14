@@ -3,8 +3,8 @@ FROM debian:bullseye-slim
 
 # Actualiza el sistema y instala las dependencias necesarias
 RUN apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y python3 python3-pip nginx && \
-    apt-get clean && apt-get install -y certbot
+    DEBIAN_FRONTEND=noninteractive apt-get install -y python3 python3-pip nginx certbot && \
+    apt-get clean
 
 # Establece el directorio de trabajo
 WORKDIR /app
