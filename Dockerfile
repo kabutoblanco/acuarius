@@ -9,12 +9,12 @@ RUN apt-get update && \
     apt-get autoremove && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-RUN apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y nginx certbot && \
-    apt-get clean && \
-    apt-get autoclean && \
-    apt-get autoremove && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+# RUN apt-get update && \
+#     DEBIAN_FRONTEND=noninteractive apt-get install -y nginx certbot && \
+#     apt-get clean && \
+#     apt-get autoclean && \
+#     apt-get autoremove && \
+#     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Establece el directorio de trabajo
 WORKDIR /app
