@@ -10,7 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
-import os, environ, logging
+import os, environ
 from pathlib import Path
 from decouple import config
 
@@ -19,8 +19,7 @@ from decouple import config
 BASE_DIR = Path(__file__).resolve().parent.parent
 ROOT_DIR = environ.Path(__file__) - 2
 
-DEBUG = config('DEBUG')
-LOGGING_DIR = os.path.join(BASE_DIR, 'logs')
+DEBUG = config('DEBUG', cast=bool)
 
 PUBLIC_KEY = config('PUK')
 PRIVATE_KEY = config('PRK')
