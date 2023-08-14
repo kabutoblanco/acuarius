@@ -5,8 +5,9 @@ FROM debian:bullseye-slim
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y python3 python3-pip nginx certbot && \
     apt-get clean && \
-    rm -rf /var/lib/apt/lists/* && \
-    rm -rf /tmp/*
+    apt-get autoclean && \
+    apt-get autoremove && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Establece el directorio de trabajo
 WORKDIR /app
