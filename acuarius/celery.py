@@ -26,7 +26,7 @@ def debug_task(self):
 app.conf.beat_schedule = {
     'check_payments': {
         'task': 'check_payments',  
-        'schedule': 60.0 * 30.0,
+        'schedule': 60.0 * 60.0 * 6,
         'args': () 
     },
 }  
