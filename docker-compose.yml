@@ -13,6 +13,7 @@ services:
     container_name: celery_worker
     image: celery:latest
     environment:
+      - DJANGO_SETTINGS_MODULE=acuarius.settings
       - CELERY_BROKER_URL=redis://redis:6379/0
       - CELERY_RESULT_BACKEND=redis://redis:6379/0
     command: celery -A acuarius worker --loglevel=info
@@ -26,6 +27,7 @@ services:
     container_name: celery_beat
     image: celery:latest
     environment:
+      - DJANGO_SETTINGS_MODULE=acuarius.settings
       - CELERY_BROKER_URL=redis://redis:6379/0
       - CELERY_RESULT_BACKEND=redis://redis:6379/0
     command: celery -A acuarius beat --loglevel=info
