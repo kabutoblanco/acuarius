@@ -28,8 +28,11 @@ SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 
 if not DEBUG:
     CSRF_TRUSTED_ORIGINS = [
-        "http://0.0.0.0:8000", "http://acuariusfloristeriacali.com:8000", "https://acuariusfloristeriacali.com"  # Agrega la URL de origen confiable aquí
+        'http://0.0.0.0:8000', 'https://acuariusfloristeriacali.com', 'https://www.acuariusfloristeriacali.com'
     ]
+    SUCCESS_PAYMENT = config('SUCCESS_PAYMENT_EC2')
+else:
+    SUCCESS_PAYMENT = config('SUCCESS_PAYMENT_LOCAL')
     
 CSRF_COOKIE_SECURE = not DEBUG
 SESSION_COOKIE_SECURE = not DEBUG
@@ -150,3 +153,19 @@ MEDIA_ROOT = BASE_DIR / 'mediafiles'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Celery
+CELERY_TIMEZONE = 'America/Bogota'
+CELERY_TASK_TRACK_STARTED = True
+CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
+
+CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
+CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379'
+
+# email
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = config('EMA')
+EMAIL_HOST_PASSWORD = config('PEM')

@@ -1,6 +1,35 @@
 version: '3'
 
 services:
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+  celery_worker:
+    image: celery:latest
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+    command: celery -A acuarius worker --loglevel=info
+    volumes:
+      - .:/app
+    depends_on:
+      - redis
+
+  celery_beat:
+    image: celery:latest
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+    command: celery -A acuarius beat --loglevel=info
+    volumes:
+      - .:/app
+    depends_on:
+      - redis
+
   web:
     container_name: web
     build: .
@@ -15,3 +44,9 @@ services:
       - ./staticfiles:/app/staticfiles
       - ./mediafiles:/app/mediafiles
       - ./certbot/conf:/etc/letsencrypt
+    depends_on:
+      - redis
+
+volumes:
+  redis_data:
+      driver: local

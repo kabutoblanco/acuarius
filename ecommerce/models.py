@@ -4,11 +4,17 @@ from django.utils.translation import gettext_lazy as _
 
 
 TYPE_PERSON = ((1, _("NATURAL")), (2, _("JURIDICA")))
+TYPE_PERSON_DICT = {label: value for value, label in TYPE_PERSON}
 TYPE_DOCUMENT = (("CC", _("CC")), ("NIT", _("NIT")), ("PPN", _("PASAPORTE")))
+TYPE_DOCUMENT_DICT = {label: value for value, label in TYPE_DOCUMENT}
 TYPE_PRODUCT = ((1, _("PRINCIPAL")), (2, _("DETAIL")))
+TYPE_PRODUCT_DICT = {label: value for value, label in TYPE_PRODUCT}
 TYPE_PAYMENT = ((1, _("PSE")), (2, _("TRANSFERENCIA")))
-STATUS_ORDER = ((1, _("RECEIVED")), (2, _("SENDED")), (3, _("DELIVERED")))
+TYPE_PAYMENT_DICT = {label: value for value, label in TYPE_PAYMENT}
+STATUS_ORDER = ((1, _("RECEIVED")), (2, _("APPROVADED")), (3, _("SENDED")), (4, _("DELIVERED")), (5, _("CANCELED")))
+STATUS_ORDER_DICT = {label: value for value, label in STATUS_ORDER}
 STATUS_PAYMENT = ((1, _("PENDING")), (2, _("APPROVADED")), (3, _("CANCELED")))
+STATUS_PAYMENT_DICT = {label: value for value, label in STATUS_PAYMENT}
 
 # Create your models here.
 class Banner(models.Model):
@@ -164,6 +170,8 @@ class OrderProduct(models.Model):
 
 
 class Payment(models.Model):
+    transaction_id = models.CharField(max_length=255, verbose_name='Transaccion ID')
+    ref_payment = models.CharField(max_length=255, verbose_name='Referencia pasarela de pagos')
     customer = models.ForeignKey(to='ecommerce.Customer', on_delete=models.CASCADE, verbose_name='Cliente')
     status = models.IntegerField(choices=STATUS_PAYMENT, default=1, verbose_name='Estado')
     order = models.ForeignKey(to='ecommerce.Order', on_delete=models.CASCADE, verbose_name='Orden')

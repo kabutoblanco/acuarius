@@ -37,6 +37,15 @@ def get_banks(token):
     return {"data": [{"bankCode": "0", "bankName":"A continuaci\ón seleccione su banco"}]}
 
 
+def get_status_payment(token, payload):
+    session = requests.Session()
+    session.headers.update({'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json'})
+    r = session.post('https://apify.epayco.co/transaction/detail', data=json.dumps(payload))
+    if r.status_code == 200:
+        return r.json()
+    return {"data": None}
+
+
 def get_client_ip(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded_for:
