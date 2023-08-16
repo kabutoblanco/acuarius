@@ -17,7 +17,7 @@ services:
       - CELERY_RESULT_BACKEND=redis://redis:6379/0
     command: celery -A acuarius worker --loglevel=info
     volumes:
-      - .:/
+      - .:./
     depends_on:
       - redis
       - web
@@ -30,7 +30,7 @@ services:
       - CELERY_RESULT_BACKEND=redis://redis:6379/0
     command: celery -A acuarius beat --loglevel=info
     volumes:
-      - .:/
+      - .:./
     depends_on:
       - redis
       - web
