@@ -20,6 +20,7 @@ services:
       - .:/app
     depends_on:
       - redis
+      - web
 
   celery_beat:
     container_name: celery_beat
@@ -32,6 +33,7 @@ services:
       - .:/app
     depends_on:
       - redis
+      - web
 
   web:
     container_name: web
