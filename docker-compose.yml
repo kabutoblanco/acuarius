@@ -11,29 +11,29 @@ services:
 
   celery_worker:
     container_name: celery_worker
-    image: celery:latest
+    build:
+      context: .
     environment:
       - CELERY_BROKER_URL=redis://redis:6379/0
       - CELERY_RESULT_BACKEND=redis://redis:6379/0
     command: celery -A acuarius worker --loglevel=info
     volumes:
-      - .:./
+      - .:/app
     depends_on:
       - redis
-      - web
 
   celery_beat:
     container_name: celery_beat
-    image: celery:latest
+    build:
+      context: .
     environment:
       - CELERY_BROKER_URL=redis://redis:6379/0
       - CELERY_RESULT_BACKEND=redis://redis:6379/0
     command: celery -A acuarius beat --loglevel=info
     volumes:
-      - .:./
+      - .:/app
     depends_on:
       - redis
-      - web
 
   web:
     container_name: web
@@ -49,6 +49,8 @@ services:
       - ./staticfiles:/app/staticfiles
       - ./mediafiles:/app/mediafiles
       - ./certbot/conf:/etc/letsencrypt
+    command: >
+      sh -c "service nginx start && gunicorn acuarius.wsgi:application --bind 0.0.0.0:8000"
     depends_on:
       - redis
 
