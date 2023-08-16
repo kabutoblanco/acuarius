@@ -6,6 +6,7 @@ from .models import *
 
 class BannerAdmin(admin.ModelAdmin):
     list_display = ('name', 'image_preview')
+    readonly_fields = ('date_record', 'date_update')
     search_fields = ('name',)
     ordering = ('name',)
 
@@ -19,29 +20,33 @@ class BannerAdmin(admin.ModelAdmin):
 
 class CustomerAdmin(admin.ModelAdmin):
     list_display = ('uid_device', 'email')
+    readonly_fields = ('date_record', 'date_update')
     search_fields = ('uid_device', 'email')
     ordering = ('uid_device', 'email')
 
 
 class ColorAdmin(admin.ModelAdmin):
     list_display = ('name', 'ref')
+    readonly_fields = ('date_record', 'date_update')
     search_fields = ('name', 'ref')
     ordering = ('name', 'ref')
 
 
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('name', 'path')
+    readonly_fields = ('date_record', 'date_update')
     search_fields = ('name', 'path')
     ordering = ('name', 'path')
 
 
 class ProductAdmin(admin.ModelAdmin):
     list_display = ('name', 'format_price_view', 'image_preview')
+    readonly_fields = ('date_record', 'date_update')
     search_fields = ('name',)
     ordering = ('name', 'price')
 
     def format_price_view(self, obj):
-        return obj.format_price()
+        return '${:,.0f}'.format(obj.price)
 
     def image_preview(self, obj):
         if obj.image_1:
@@ -54,6 +59,7 @@ class ProductAdmin(admin.ModelAdmin):
 
 class CartProductAdmin(admin.ModelAdmin):
     list_display = ('customer', 'product', 'amount', 'format_price_view')
+    readonly_fields = ('date_record', 'date_update')
     search_fields = ('product',)
 
     def format_price_view(self, obj):
@@ -64,7 +70,7 @@ class CartProductAdmin(admin.ModelAdmin):
 
 class OrderAdmin(admin.ModelAdmin):
     list_display = ('uid', 'status', 'format_price_view', 'date_schedule')
-    readonly_fields = ('type_payment',)
+    readonly_fields = ('type_payment', 'date_record', 'date_update')
     search_fields = ('uid',)
 
     def format_price_view(self, obj):
@@ -75,6 +81,7 @@ class OrderAdmin(admin.ModelAdmin):
 
 class PaymentAdmin(admin.ModelAdmin):
     list_display = ('ref', 'status', 'format_price_view')
+    readonly_fields = ('date_record', 'date_update')
     search_fields = ('ref',)
 
     def format_price_view(self, obj):

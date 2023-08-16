@@ -17,7 +17,19 @@ STATUS_PAYMENT = ((1, _("PENDING")), (2, _("APPROVADED")), (3, _("CANCELED")))
 STATUS_PAYMENT_DICT = {label: value for value, label in STATUS_PAYMENT}
 
 # Create your models here.
-class Banner(models.Model):
+class BaseModel(models.Model):
+    date_record = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de registro')
+    date_update = models.DateTimeField(auto_now=True, verbose_name='Fecha de actualizacion')
+    is_active = models.BooleanField(default=True, verbose_name='¿Esta activo?')
+
+    class Meta:
+        abstract = True
+
+        get_latest_by = 'date_record'
+        ordering = ['-date_record', '-date_update']
+
+
+class Banner(BaseModel):
     name = models.CharField(max_length=125, verbose_name="Nombre")
     img_small = models.ImageField(upload_to='images/banners/', null=True, blank=True, verbose_name='Imagen pequeña')
     img_large = models.ImageField(upload_to='images/banners/', null=True, blank=True, verbose_name='Imagen grande')
@@ -30,7 +42,7 @@ class Banner(models.Model):
         return '[{}] - {}'.format(self.id, self.name)
 
 
-class Customer(models.Model):
+class Customer(BaseModel):
     uid_device = models.CharField(null=True, blank=True, unique=True, max_length=120, verbose_name='UID')
     email = models.EmailField(null=True, blank=True, unique=True, verbose_name='Correo')
 
@@ -42,7 +54,7 @@ class Customer(models.Model):
         return '[{}] - {} {}'.format(self.id, self.uid_device, self.email)
 
 
-class Color(models.Model):
+class Color(BaseModel):
     name = models.CharField(max_length=65, verbose_name='Nombre')
     ref = models.CharField(max_length=45, verbose_name='Código HEX')
 
@@ -54,7 +66,7 @@ class Color(models.Model):
         return '[{}] - {}'.format(self.id, self.name)
 
 
-class Category(models.Model):
+class Category(BaseModel):
     name = models.CharField(max_length=65, verbose_name='Nombre')
     path = models.CharField(max_length=65, verbose_name='Ruta')
 
@@ -66,17 +78,17 @@ class Category(models.Model):
         return '[{}] - {}'.format(self.id, self.name)
 
 
-class Product(models.Model):
-    type_product = models.IntegerField(choices=TYPE_PRODUCT, default=1, verbose_name='Tipo')
+class Product(BaseModel):
+    type_product = models.IntegerField(choices=TYPE_PRODUCT, default=TYPE_PRODUCT_DICT['PRINCIPAL'], verbose_name='Tipo')
     name = models.CharField(max_length=200, verbose_name='Nombre')
     price = models.IntegerField(verbose_name='Precio')
-    discount = models.FloatField(verbose_name='Descuento')
-    colors = models.ManyToManyField('ecommerce.Color', verbose_name='Colores')
+    discount = models.FloatField(default=0, verbose_name='Descuento')
+    colors = models.ManyToManyField('ecommerce.Color', blank=True, verbose_name='Colores')
     categories = models.ManyToManyField('ecommerce.Category', blank=True, verbose_name='Categorias')
     image_1 = models.ImageField(upload_to='images/', null=True, blank=True, verbose_name='Imagen 1')
     image_2 = models.ImageField(upload_to='images/', null=True, blank=True, verbose_name='Imagen 2')
     image_3 = models.ImageField(upload_to='images/', null=True, blank=True, verbose_name='Imagen 3')
-    description = models.TextField(verbose_name='Descripción')
+    description = models.TextField(null=True, blank=True, verbose_name='Descripción')
 
     class Meta:
         verbose_name = 'Producto'
@@ -90,24 +102,8 @@ class Product(models.Model):
         discount = self.discount * 100
         return discount
 
-    def format_price(self):
-        num_str = str(self.price)
-        token = []
-        count = 0
 
-        for digit in num_str[::-1]:
-            if count == 3:
-                token.append(',')
-                count = 0
-            token.append(digit)
-            count += 1
-
-        return format_html('<span>{}</span/>', '$' + ''.join(token[::-1]))
-
-    format_price.admin_order_field = 'price' 
-
-
-class CartProduct(models.Model):
+class CartProduct(BaseModel):
     customer = models.ForeignKey('ecommerce.Customer', on_delete=models.CASCADE, verbose_name='Cliente')
     product = models.ForeignKey('ecommerce.Product', on_delete=models.CASCADE, verbose_name='Producto')
     color = models.CharField(max_length=50, verbose_name='Color')
@@ -132,13 +128,13 @@ class CartProduct(models.Model):
         return total
 
 
-class Order(models.Model):
+class Order(BaseModel):
     uid = models.UUIDField(max_length=255, verbose_name='Referencia')
     customer = models.ForeignKey('ecommerce.Customer', on_delete=models.CASCADE, verbose_name='Cliente')
-    status = models.IntegerField(choices=STATUS_ORDER, default=1, verbose_name='Estado')
+    status = models.IntegerField(choices=STATUS_ORDER, default=STATUS_ORDER_DICT['RECEIVED'], verbose_name='Estado')
     address = models.CharField(max_length=255, verbose_name='Dirección de entrega')
     is_pickup = models.BooleanField(default=False, verbose_name='¿Recoge en la tienda?')
-    type_payment = models.IntegerField(choices=TYPE_PAYMENT, default=1, verbose_name='Tipo de pago')
+    type_payment = models.IntegerField(choices=TYPE_PAYMENT, default=TYPE_PAYMENT_DICT['PSE'], verbose_name='Tipo de pago')
     price_sending = models.IntegerField(verbose_name='Costo de envio')
     discount = models.IntegerField(verbose_name='Descuento')
     total = models.IntegerField(verbose_name='Total')
@@ -153,7 +149,7 @@ class Order(models.Model):
         return '[{}]'.format(self.uid)
 
 
-class OrderProduct(models.Model):
+class OrderProduct(BaseModel):
     order = models.ForeignKey(to='ecommerce.Order', on_delete=models.CASCADE, verbose_name='Orden')
     product = models.ForeignKey('ecommerce.Product', on_delete=models.CASCADE, verbose_name='Producto')
     color = models.CharField(max_length=50, verbose_name='Color')
@@ -169,16 +165,16 @@ class OrderProduct(models.Model):
         return '{} - {} {}'.format(self.id, self.order, self.product)
 
 
-class Payment(models.Model):
+class Payment(BaseModel):
     transaction_id = models.CharField(max_length=255, verbose_name='Transaccion ID')
     ref_payment = models.CharField(max_length=255, verbose_name='Referencia pasarela de pagos')
     customer = models.ForeignKey(to='ecommerce.Customer', on_delete=models.CASCADE, verbose_name='Cliente')
-    status = models.IntegerField(choices=STATUS_PAYMENT, default=1, verbose_name='Estado')
+    status = models.IntegerField(choices=STATUS_PAYMENT, default=STATUS_PAYMENT_DICT['PENDING'], verbose_name='Estado')
     order = models.ForeignKey(to='ecommerce.Order', on_delete=models.CASCADE, verbose_name='Orden')
     ref = models.CharField(max_length=255, verbose_name='Referencia')
     bank = models.CharField(max_length=255, verbose_name='Banco')
-    type_person = models.IntegerField(choices=TYPE_PERSON, default=1, verbose_name='Tipo persona')
-    type_document = models.CharField(choices=TYPE_DOCUMENT, max_length=255, default="CC", verbose_name='Tipo de documento')
+    type_person = models.IntegerField(choices=TYPE_PERSON, default=TYPE_PERSON_DICT['NATURAL'], verbose_name='Tipo persona')
+    type_document = models.CharField(choices=TYPE_DOCUMENT, max_length=255, default=TYPE_DOCUMENT_DICT['CC'], verbose_name='Tipo de documento')
     num_document = models.CharField(max_length=255, verbose_name='No. documento')
     first_name = models.CharField(max_length=255, verbose_name='Nombres')
     last_name = models.CharField(max_length=255, verbose_name='Apellidos')
