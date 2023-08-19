@@ -105,18 +105,21 @@ class CartView(ListView):
 
 def update_cart(request, pk, type):
     factor = 1 if type else -1
-
     device = request.COOKIES.get('sessionid', '')
     cart_product = CartProduct.objects.get(id=pk)
-    cart_product.amount += factor
-    cart_product.save()
+
+    if type == 2:
+        cart_product.delete()
+    else:
+        cart_product.amount += factor
+        cart_product.save()
 
     queryset = CartProduct.objects.filter(customer__uid_device=device)
     details = queryset \
                 .annotate(discount=F('product__price') * F('product__discount') * F('amount'), total=F('product__price') * F('amount')) \
                 .aggregate(Sum('discount', default=Value(0)), Sum('total', default=Value(0)))
     
-    details.update({'total_self': cart_product.get_total})
+    details.update({'total_self': cart_product.get_total, 'type': type})
     return JsonResponse(details)
 
 

@@ -4,12 +4,19 @@ $(document).ready(() => {
 
 function addDetail(element, id, path) {
     let details = eval(`[${$("#details").val()}]`);
-    details.push(id);
-
-    details.forEach(detail => {
-        $("#detail-"+detail).find(".check-image-container").addClass("detail-added");
-        $("#detail-"+detail).find(".check-image-container").find("img").attr("src", path + "img/check.png");
-    });
+    let isFind = details.find(item => item == id) != undefined;
+    if (isFind) {
+        details = details.filter(item => item != id)
+        $("#detail-"+id).find(".check-image-container").removeClass("detail-added");
+        $("#detail-"+id).find(".check-image-container").find("img").attr("src", path + "img/check.png");
+        
+    } else {
+        details.push(id);
+        details.forEach(detail => {
+            $("#detail-"+detail).find(".check-image-container").addClass("detail-added");
+            $("#detail-"+detail).find(".check-image-container").find("img").attr("src", path + "img/check.png");
+        });
+    }
 
     details = details.reduce((b, a) => a + "," + b, "");
 
