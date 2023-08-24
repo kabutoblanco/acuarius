@@ -39,6 +39,7 @@ services:
     container_name: web
     build:
       context: .
+      dockerfile: Dockerfile
       args:
         - NGINX_CONFIG=${NGINX_CONFIG}
     env_file:
