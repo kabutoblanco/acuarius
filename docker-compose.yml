@@ -37,7 +37,10 @@ services:
 
   web:
     container_name: web
-    build: .
+    build:
+      context: .
+      args:
+        NGINX_CONF: ${NGINX_CONFIG}
     env_file:
       - .env
     ports:
