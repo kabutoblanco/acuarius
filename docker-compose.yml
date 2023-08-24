@@ -11,12 +11,7 @@ services:
 
   celery_worker:
     container_name: celery_worker
-    build:
-      context: .
-      args:
-        - NGINX_CONFIG=${NGINX_CONFIG}
-    env_file:
-      - .env
+    build: .
     environment:
       - CELERY_BROKER_URL=redis://redis:6379/0
       - CELERY_RESULT_BACKEND=redis://redis:6379/0
@@ -28,12 +23,7 @@ services:
 
   celery_beat:
     container_name: celery_beat
-    build:
-      context: .
-      args:
-        - NGINX_CONFIG=${NGINX_CONFIG}
-    env_file:
-      - .env
+    build: .
     environment:
       - CELERY_BROKER_URL=redis://redis:6379/0
       - CELERY_RESULT_BACKEND=redis://redis:6379/0
@@ -45,28 +35,50 @@ services:
 
   web:
     container_name: web
+    build: .
+    ports:
+      - "8000:8000"
+    expose:
+      - 8000
+    volumes:
+      - ./db.sqlite3:/app/db.sqlite3
+      - ./static:/app/static
+      - ./media:/app/media
+      - static_volume:/app/staticfiles
+      - media_volume:/app/mediafiles
+      - ./certbot/conf:/etc/letsencrypt
+    command: >
+      sh -c "gunicorn acuarius.wsgi:application --bind 0.0.0.0:8000"
+    depends_on:
+      - redis
+    networks:
+      - app-network
+
+  nginx:
+    container_name: nginx
     build:
-      context: .
+      context: ./nginx
       args:
         - NGINX_CONFIG=${NGINX_CONFIG}
     env_file:
       - .env
     ports:
-      - "8000:8000"
       - "80:80"
       - "443:443"
-    volumes:
-      - ./db.sqlite3:/app/db.sqlite3
-      - ./static:/app/static
-      - ./media:/app/media
-      - ./staticfiles:/app/staticfiles
-      - ./mediafiles:/app/mediafiles
-      - ./certbot/conf:/etc/letsencrypt
-    command: >
-      sh -c "service nginx start && gunicorn acuarius.wsgi:application --bind 0.0.0.0:8000"
     depends_on:
-      - redis
+      - web
+    volumes:
+      - static_volume:/app/staticfiles
+      - media_volume:/app/mediafiles
+    networks:
+        - app-network
 
 volumes:
   redis_data:
       driver: local
+  media_volume:
+  static_volume:
+
+networks:
+    app-network:
+        driver: bridge
