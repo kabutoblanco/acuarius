@@ -13,6 +13,10 @@ services:
     container_name: celery_worker
     build:
       context: .
+      args:
+        - NGINX_CONFIG=${NGINX_CONFIG}
+    env_file:
+      - .env
     environment:
       - CELERY_BROKER_URL=redis://redis:6379/0
       - CELERY_RESULT_BACKEND=redis://redis:6379/0
@@ -26,6 +30,10 @@ services:
     container_name: celery_beat
     build:
       context: .
+      args:
+        - NGINX_CONFIG=${NGINX_CONFIG}
+    env_file:
+      - .env
     environment:
       - CELERY_BROKER_URL=redis://redis:6379/0
       - CELERY_RESULT_BACKEND=redis://redis:6379/0
@@ -40,7 +48,7 @@ services:
     build:
       context: .
       args:
-        NGINX_CONFIG: ${NGINX_CONFIG}
+        - NGINX_CONFIG=${NGINX_CONFIG}
     env_file:
       - .env
     ports:
