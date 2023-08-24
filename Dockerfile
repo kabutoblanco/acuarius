@@ -2,6 +2,7 @@
 FROM debian:bullseye-slim
 
 ARG NGINX_CONFIG
+RUN echo "El valor de NGINX_CONFIG es: ${NGINX_CONFIG}"
 
 # Actualiza el sistema y instala las dependencias necesarias
 RUN apt-get update && \
