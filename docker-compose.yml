@@ -40,7 +40,7 @@ services:
     build:
       context: .
       args:
-        NGINX_CONF: ${NGINX_CONFIG}
+        NGINX_CONFIG: ${NGINX_CONFIG}
     env_file:
       - .env
     ports:
