@@ -11,14 +11,14 @@ RUN apt-get update && \
 WORKDIR /app
 
 # Copia el código fuente de la aplicación a la imagen
-COPY ./${NGINX_CONFIG} /app
+COPY . /app
 
 # Instala las dependencias de la aplicación Django
 RUN pip3 install -r requirements.txt
 RUN python3 manage.py collectstatic --noinput
 
 # Configura Nginx para servir archivos estáticos
-COPY $NGINX_CONFIG /etc/nginx/sites-available/default
+COPY ./${NGINX_CONFIG} /etc/nginx/sites-available/default
 
 # Exponer el puerto 80 para Nginx
 EXPOSE 80
