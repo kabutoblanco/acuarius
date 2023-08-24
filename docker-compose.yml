@@ -37,11 +37,12 @@ services:
 
   web:
     container_name: web
-    build: .
+    build:
+      context: .
+      environment:
+      - NGINX_CONFIG=${NGINX_CONFIG}
     env_file:
       - .env
-    environment:
-      - NGINX_CONFIG=${NGINX_CONFIG}
     ports:
       - "8000:8000"
       - "80:80"
