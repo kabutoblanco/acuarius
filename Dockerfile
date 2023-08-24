@@ -2,6 +2,7 @@
 FROM debian:bullseye-slim
 
 ARG NGINX_CONFIG
+ENV NGINX_CONFIG=${NGINX_CONFIG}
 
 # Actualiza el sistema y instala las dependencias necesarias
 RUN apt-get update && \
@@ -18,7 +19,7 @@ RUN pip3 install -r requirements.txt
 RUN python3 manage.py collectstatic --noinput
 
 # Configura Nginx para servir archivos estáticos
-COPY ./$NGINX_CONFIG /etc/nginx/sites-available/default
+COPY ./${NGINX_CONFIG} /etc/nginx/sites-available/default
 
 # Exponer el puerto 80 para Nginx
 EXPOSE 80
