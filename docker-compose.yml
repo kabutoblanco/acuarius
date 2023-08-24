@@ -46,7 +46,6 @@ services:
       - ./media:/app/media
       - static_volume:/app/staticfiles
       - media_volume:/app/mediafiles
-      - ./certbot/conf:/etc/letsencrypt
     command: >
       sh -c "gunicorn acuarius.wsgi:application --bind 0.0.0.0:8000"
     depends_on:
@@ -70,6 +69,7 @@ services:
     volumes:
       - static_volume:/app/staticfiles
       - media_volume:/app/mediafiles
+      - ./certbot/conf:/etc/letsencrypt
     networks:
         - app-network
 
