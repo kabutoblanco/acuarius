@@ -41,7 +41,7 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
-        - NGINX_CONFIG: ${NGINX_CONFIG}
+        - NGINX_CONFIG=${NGINX_CONFIG}
     env_file:
       - .env
     ports:
