@@ -38,6 +38,8 @@ services:
   web:
     container_name: web
     build: .
+    environment:
+      - NGINX_CONFIG=${NGINX_CONFIG}
     ports:
       - "8000:8000"
       - "80:80"
