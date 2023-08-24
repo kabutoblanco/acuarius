@@ -1,7 +1,7 @@
 # Utiliza una imagen base ligera de Ubuntu
 FROM debian:bullseye-slim
 
-ARG NGINX_CONFIG
+ENV NGINX_CONFIG=$NGINX_CONFIG 
 
 # Actualiza el sistema y instala las dependencias necesarias
 RUN apt-get update && \
