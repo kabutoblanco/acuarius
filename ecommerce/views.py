@@ -12,7 +12,6 @@ from datetime import datetime, timedelta
 from .forms import OrderForm, PaymentForm
 from .models import Customer, Product, CartProduct, Payment, Order, OrderProduct, Banner
 
-from .tasks import check_payments
 from .services import get_token_epayco, payment_pse, get_banks as get_banks_api, get_client_ip
 
 
@@ -283,7 +282,6 @@ class PaymentView(CreateView):
                                 cellphone=request.POST['cellphone'],
                                 total=total)
                 payment.save()
-                check_payments.apply_async(countdown=60*5)
                 CartProduct.objects.filter(customer__uid_device=device).delete()
                 return redirect(payment_response['data']['urlbanco'])
             else:
