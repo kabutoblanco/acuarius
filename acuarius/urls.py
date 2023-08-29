@@ -22,8 +22,7 @@ from django.views.generic import RedirectView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('ecommerce.urls')),
-    path('acuariusfloristeriacali.com/', RedirectView.as_view(url='http://www.acuariusfloristeriacali.com/', permanent=True)),
+    path('', include('ecommerce.urls'))
 ]
 
 if settings.DEBUG:
