@@ -15,6 +15,10 @@ from .models import Customer, Product, CartProduct, Payment, Order, OrderProduct
 from .tasks import check_payments
 from .services import get_token_epayco, payment_pse, get_banks as get_banks_api, get_client_ip
 
+import logging
+
+logger = logging.getLogger(__name__)
+
 
 PRICE_SENDING = 5000
 
@@ -218,7 +222,7 @@ class PaymentView(CreateView):
     form_class = PaymentForm
 
     def get_context_main(self, context={}):
-        print('Modificando contexto')
+        logger.info('Modificando contexto')
         ref_order = self.request.GET.get('ref_order')
 
         device = self.request.COOKIES.get('sessionid', '')
@@ -284,6 +288,7 @@ class PaymentView(CreateView):
                                 cellphone=request.POST['cellphone'],
                                 total=total)
                 payment.save()
+                logger.info('Si proceso el pago')
                 check_payments.apply_async(countdown=3)
                 CartProduct.objects.filter(customer__uid_device=device).delete()
                 return redirect(payment_response['data']['urlbanco'])
