@@ -52,6 +52,8 @@ services:
       sh -c "gunicorn acuarius.wsgi:application --bind 0.0.0.0:8000"
     depends_on:
       - redis
+      - celery_worker
+      - celery_beat
     networks:
       - app-network
 
