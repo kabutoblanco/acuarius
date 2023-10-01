@@ -283,7 +283,7 @@ class PaymentView(CreateView):
                                 cellphone=request.POST['cellphone'],
                                 total=total)
                 payment.save()
-                check_payments.apply_async(countdown=60*5)
+                check_payments.apply_async(countdown=3)
                 CartProduct.objects.filter(customer__uid_device=device).delete()
                 return redirect(payment_response['data']['urlbanco'])
             else:
