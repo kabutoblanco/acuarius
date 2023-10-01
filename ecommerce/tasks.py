@@ -5,6 +5,10 @@ from .services import get_status_payment, get_token_epayco
 
 from celery import shared_task
 
+import logging
+
+logger = logging.getLogger(__name__)
+
 
 @shared_task(name='check_payments')
 def check_payments():
@@ -36,4 +40,4 @@ def check_payments():
                 payment.save()
                 order.save()
     except Exception as e:
-        print(f"Error: {str(e)}")
+        logger.error(f"Error: {str(e)}")
