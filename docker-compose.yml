@@ -10,6 +10,8 @@ services:
       - 6379
     volumes:
       - redis_data:/data
+    networks:
+      - app-network
 
   celery_worker:
     container_name: celery_worker
@@ -22,6 +24,8 @@ services:
       - .:/app
     depends_on:
       - redis
+    networks:
+      - app-network
 
   celery_beat:
     container_name: celery_beat
@@ -34,6 +38,8 @@ services:
       - .:/app
     depends_on:
       - redis
+    networks:
+      - app-network
 
   web:
     container_name: web
