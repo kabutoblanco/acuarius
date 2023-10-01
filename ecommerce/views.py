@@ -234,7 +234,6 @@ class PaymentView(CreateView):
         return self.get_context_main(context)
 
     def post(self, request, *args, **kwargs):
-        print('PROCESANDO PAGO')
         form = self.form_class(request.POST)
         if form.is_valid():
             ip = get_client_ip(request)
@@ -266,9 +265,7 @@ class PaymentView(CreateView):
                 "currency": "COP",
                 "address": request.POST['address']
             }
-            print(payload)
             payment_response = payment_pse(token, payload)
-            print(payment_response)
             if payment_response['success']:
                 payment = Payment(transaction_id=payment_response['data']['transactionID'],
                                 ref_payment=payment_response['data']['ref_payco'],
@@ -286,9 +283,8 @@ class PaymentView(CreateView):
                                 cellphone=request.POST['cellphone'],
                                 total=total)
                 payment.save()
-                #check_payments.apply_async(countdown=60*5)
+                check_payments.apply_async(countdown=60*5)
                 CartProduct.objects.filter(customer__uid_device=device).delete()
-                print(payment_response['data']['urlbanco'])
                 return redirect(payment_response['data']['urlbanco'])
             else:
                 return redirect('/carrito')
