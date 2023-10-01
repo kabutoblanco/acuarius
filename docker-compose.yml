@@ -15,7 +15,7 @@ services:
     environment:
       - CELERY_BROKER_URL=redis://redis:6379/0
       - CELERY_RESULT_BACKEND=redis://redis:6379/0
-    command: celery -A acuarius worker --loglevel=info
+    command: celery -A acuarius worker --loglevel=info -E
     volumes:
       - .:/app
     depends_on:
