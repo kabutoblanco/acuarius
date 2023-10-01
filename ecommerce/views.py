@@ -265,6 +265,7 @@ class PaymentView(CreateView):
                 "currency": "COP",
                 "address": request.POST['address']
             }
+            print(payload)
             payment_response = payment_pse(token, payload)
             print(payment_response)
             if payment_response['success']:
