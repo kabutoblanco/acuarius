@@ -25,6 +25,8 @@ def payment_pse(token, payload):
     r = session.post('https://apify.epayco.co/payment/process/pse', data=json.dumps(payload))
     if r.status_code == 200:
         return r.json()
+    else:
+        print(r)
     return None
 
 
