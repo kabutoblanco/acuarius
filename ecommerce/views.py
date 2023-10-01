@@ -285,6 +285,7 @@ class PaymentView(CreateView):
                 payment.save()
                 check_payments.apply_async(countdown=60*5)
                 CartProduct.objects.filter(customer__uid_device=device).delete()
+                print(payment_response['data']['urlbanco'])
                 return redirect(payment_response['data']['urlbanco'])
             else:
                 return redirect('/carrito')
