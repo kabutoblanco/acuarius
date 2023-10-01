@@ -234,8 +234,8 @@ class PaymentView(CreateView):
         return self.get_context_main(context)
 
     def post(self, request, *args, **kwargs):
-        form = self.form_class(request.POST)
         print('PROCESANDO PAGO')
+        form = self.form_class(request.POST)
         if form.is_valid():
             ip = get_client_ip(request)
             invoice_number = str(uuid.uuid4())
