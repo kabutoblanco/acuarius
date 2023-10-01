@@ -218,6 +218,7 @@ class PaymentView(CreateView):
     form_class = PaymentForm
 
     def get_context_main(self, context={}):
+        print('Modificando contexto')
         ref_order = self.request.GET.get('ref_order')
 
         device = self.request.COOKIES.get('sessionid', '')
