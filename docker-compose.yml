@@ -4,14 +4,10 @@ services:
   redis:
     container_name: redis
     image: redis:latest
-    ports:
-      - "6379:6379"
     expose:
       - 6379
     volumes:
       - redis_data:/data
-    networks:
-      - app-network
 
   celery_worker:
     container_name: celery_worker
@@ -24,8 +20,6 @@ services:
       - .:/app
     depends_on:
       - redis
-    networks:
-      - app-network
 
   celery_beat:
     container_name: celery_beat
@@ -38,8 +32,6 @@ services:
       - .:/app
     depends_on:
       - redis
-    networks:
-      - app-network
 
   web:
     container_name: web
@@ -60,8 +52,6 @@ services:
       - redis
       - celery_worker
       - celery_beat
-    networks:
-      - app-network
 
   nginx:
     container_name: nginx
@@ -80,15 +70,9 @@ services:
       - static_volume:/app/staticfiles
       - media_volume:/app/mediafiles
       - ./certbot/conf:/etc/letsencrypt
-    networks:
-        - app-network
 
 volumes:
   redis_data:
       driver: local
   media_volume:
   static_volume:
-
-networks:
-    app-network:
-        driver: bridge
