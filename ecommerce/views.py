@@ -266,6 +266,7 @@ class PaymentView(CreateView):
                 "address": request.POST['address']
             }
             payment_response = payment_pse(token, payload)
+            print(payment_response)
             if payment_response['success']:
                 payment = Payment(transaction_id=payment_response['data']['transactionID'],
                                 ref_payment=payment_response['data']['ref_payco'],
